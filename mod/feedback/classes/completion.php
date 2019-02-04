@@ -147,7 +147,9 @@ class mod_feedback_completion extends mod_feedback_structure {
      *
      * @param stdClass $item
      * @return bool whether user can see item or not,
-     *     null if dependency is broken or dependent question is not answered.
+     *     true if there is no dependency or dependency is met,
+     *     false if dependent question is not answered or dependency is not met,
+     *     null if dependency is broken.
      */
     protected function can_see_item($item) {
         if (empty($item->dependitem)) {
@@ -165,7 +167,7 @@ class mod_feedback_completion extends mod_feedback_structure {
             $value = $this->get_values_tmp($ditem);
         }
         if ($value === null) {
-            return null;
+            return false;
         }
         return $itemobj->compare_value($ditem, $value, $item->dependvalue) ? true : false;
     }
